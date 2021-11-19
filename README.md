@@ -1,5 +1,5 @@
 # Introduction
-This is a Java API client for communicating the [Nuts Node](https://github.com/nuts-foundation/nuts-node),
+This is a Java API client for communicating with the [Nuts Node](https://github.com/nuts-foundation/nuts-node),
 the reference implementation of the [Nuts Specification](https://nuts-foundation.gitbook.io/).
 It is generated from the latest version of the OpenAPI specifications of the Nuts Node REST API.
 
