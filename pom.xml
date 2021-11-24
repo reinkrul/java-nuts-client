@@ -95,6 +95,8 @@
                         <developerEmail>info@reinkrul.nl</developerEmail>
                         <developerOrganization>Rein Krul IT Consultancy</developerOrganization>
                         <developerOrganizationUrl>https://www.reinkrul.nl</developerOrganizationUrl>
+                        <!-- Misc -->
+                        <artifactDescription>Java client library for using the Nuts Node's REST API.</artifactDescription>
                     </configOptions>
 <!--                    <configHelp>true</configHelp>-->
                 </configuration>
