@@ -4,13 +4,13 @@ the reference implementation of the [Nuts Specification](https://nuts-foundation
 It is generated from the latest version of the OpenAPI specifications of the Nuts Node REST API.
 
 # Installation
-Maven (look up the latest version from Maven central, TODO: add link):
+Maven (look up the latest version from [Maven central](https://search.maven.org/artifact/nl.reinkrul.nuts/java-client)):
 
 ```xml
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>latest</version>
+    <version>0.0.1</version>
 </dependency>
 ```
 
