@@ -1,18 +1,24 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/nl.reinkrul.nuts/java-client/badge.svg?style=flat)](https://search.maven.org/artifact/nl.reinkrul.nuts/java-client)
+
 # Introduction
 This is a Java API client for communicating with the [Nuts Node](https://github.com/nuts-foundation/nuts-node),
 the reference implementation of the [Nuts Specification](https://nuts-foundation.gitbook.io/).
 It is generated from the latest version of the OpenAPI specifications of the Nuts Node REST API.
 
 # Installation
-Maven (look up the latest version from [Maven central](https://search.maven.org/artifact/nl.reinkrul.nuts/java-client)):
+
+## Maven
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/nl.reinkrul.nuts/java-client/badge.svg?style=flat)](https://search.maven.org/artifact/nl.reinkrul.nuts/java-client)
 
 ```xml
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
 </dependency>
 ```
+
+Find all versions on [Maven central](https://search.maven.org/artifact/nl.reinkrul.nuts/java-client).
 
 # Usage
 The example below instantiates the API client for VDR and calls `getDID` for `subjectDID`:
