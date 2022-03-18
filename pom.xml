@@ -55,6 +55,8 @@
                                 <mkdir dir="${openapi.spec.dir}/vcr/"/>
                                 <get src="${openapi.spec.baseurl}/vcr/v1.yaml"
                                      dest="${openapi.spec.dir}/vcr/v1.yaml"/>
+                                <get src="${openapi.spec.baseurl}/vcr/v2.yaml"
+                                     dest="${openapi.spec.dir}/vcr/v2.yaml"/>
                                 <!-- DIDMan -->
                                 <mkdir dir="${openapi.spec.dir}/didman/"/>
                                 <get src="${openapi.spec.baseurl}/didman/v1.yaml"
@@ -117,15 +119,28 @@
                     </execution>
                     <!-- VCR -->
                     <execution>
-                        <id>generate-vcr-client</id>
+                        <id>generate-vcr-client-v1</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/vcr/v1.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.client.vcr</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.client.vcr</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.client.vcr.v1</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.client.vcr.v1</modelPackage>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-vcr-client-v2</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${openapi.spec.dir}/vcr/v2.yaml</inputSpec>
+                            <configOptions>
+                                <apiPackage>nl.reinkrul.nuts.client.vcr.v2</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.client.vcr.v2</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
