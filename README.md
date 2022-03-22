@@ -14,7 +14,7 @@ It is generated from the latest version of the OpenAPI specifications of the Nut
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
 </dependency>
 ```
 
@@ -55,7 +55,7 @@ Update artifact version to next major/minor (to `0.0.x`):
 mvn -f generated/pom.xml versions:set
 ```
 
-Add the following configuration to the `maven-sign-plugin`:
+Add the following configuration to the `maven-gpg-plugin`:
 
 ```xml
 <configuration>
