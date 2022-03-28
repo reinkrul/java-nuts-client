@@ -14,7 +14,7 @@ It is generated from the latest version of the OpenAPI specifications of the Nut
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>0.1.1</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -37,8 +37,8 @@ You can find in their own subpackage in `nl.reinkrul.nuts` (e.g. `nl.reinkrul.nu
 
 # Versioning
 
-As long as the Nuts Node isn't explicitly versioned, this library will use `0.0.x` versions for subsequent versions.
-When the Nuts Node is starts getting released (and thus tagged with explicit versions), this library will follow those versions.
+This library will follow the major versioning of the Nuts Node. So if Nuts Node `1.x.x` is released, this library will follow with a `1.y.z` release.
+Minor and patch versions will not follow the Nuts Node and are intended for features/bugfixes of the library.
 
 # Development
 
@@ -50,7 +50,7 @@ Run `make`:
 
 # Publishing
 
-Update artifact version to next major/minor (to `0.0.x`):
+Update artifact version to next major/minor (to `x.y.z`):
 ```
 mvn -f generated/pom.xml versions:set
 ```
