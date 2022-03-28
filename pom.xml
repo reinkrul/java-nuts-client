@@ -19,6 +19,14 @@
         <openapi.generator.maven.plugin.artifactVersion>1.0-SNAPSHOT</openapi.generator.maven.plugin.artifactVersion>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>nl.reinkrul.nuts</groupId>
+            <artifactId>java-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -112,8 +120,8 @@
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/vdr/v1.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.client.vdr</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.client.vdr</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.vdr</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.vdr</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -126,8 +134,8 @@
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/vcr/v1.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.client.vcr.v1</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.client.vcr.v1</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.vcr.v1</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.vcr.v1</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -139,8 +147,8 @@
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/vcr/v2.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.client.vcr.v2</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.client.vcr.v2</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.vcr.v2</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.vcr.v2</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -153,8 +161,8 @@
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/didman/v1.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.client.didman</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.client.didman</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.didman</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.didman</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -167,8 +175,8 @@
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/network/v1.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.client.network</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.client.network</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.network</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.network</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -181,8 +189,8 @@
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/crypto/v1.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.client.crypto</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.client.crypto</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.crypto</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.crypto</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -195,8 +203,23 @@
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/auth/v1.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.client.auth</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.client.auth</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.auth</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.auth</modelPackage>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <!-- Additions -->
+                    <execution>
+                        <id>generate-additions</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>specs/credentials.yaml</inputSpec>
+                            <generateApis>false</generateApis>
+                            <configOptions>
+                                <apiPackage>nl.reinkrul.nuts.extra</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.extra</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>

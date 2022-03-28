@@ -14,7 +14,7 @@ It is generated from the latest version of the OpenAPI specifications of the Nut
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -23,10 +23,9 @@ Find all versions on [Maven central](https://search.maven.org/artifact/nl.reinkr
 # Usage
 The example below instantiates the API client for VDR and calls `getDID` for `subjectDID`:
 ```java
-var apiClient = new nl.reinkrul.nuts.client.ApiClient();
-apiClient.setBasePath("http://localhost:1323");
+var apiClient = new nl.reinkrul.nuts.ApiClient();
 
-var didApi = new nl.reinkrul.nuts.client.vdr.DidApi(apiClient);
+var didApi = new nl.reinkrul.nuts.vdr.DidApi(apiClient);
 var didDocument = didApi.getDID(subjectDID, null, null);
 
 // do something with the resolved DID Document
@@ -34,6 +33,11 @@ var didDocument = didApi.getDID(subjectDID, null, null);
 
 Since each module in the Nuts Node has its own OpenAPI specification, there is a client API generated for each of them.
 You can find in their own subpackage in `nl.reinkrul.nuts` (e.g. `nl.reinkrul.nuts.vdr`).
+
+# Examples
+
+See [src/test/java/examples/CredentialExamples.java](src/test/java/examples/CredentialExamples.java)
+for how to issue `NutsOrganizationCredential` and `NutsAuthenticationCredential`. 
 
 # Versioning
 
