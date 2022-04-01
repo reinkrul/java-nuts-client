@@ -42,7 +42,7 @@ public class CredentialExamples {
                         new NutsAuthorizationCredential()
                                 .id("did:nuts:some-other-did") // the DID of the receiver of the credential
                                 .subject("1234567890") // social security number of the patient
-                                .legalBase(new LegalBase().consentType(LegalBase.ConsentTypeEnum.IMPLICIT))
+                                .legalBase(new LegalBase().consentType(LegalBase.ConsentTypeEnum.IMPLIED))
                                 .addResourcesItem(
                                         // The FHIR resources that can be accessed using the credential
                                         new FHIRResource()
