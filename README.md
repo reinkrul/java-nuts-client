@@ -14,7 +14,7 @@ It is generated from the latest version of the OpenAPI specifications of the Nut
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>1.0.3</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
@@ -37,7 +37,7 @@ You can find in their own subpackage in `nl.reinkrul.nuts` (e.g. `nl.reinkrul.nu
 # Examples
 
 See [src/test/java/examples/CredentialExamples.java](src/test/java/examples/CredentialExamples.java)
-for how to issue `NutsOrganizationCredential` and `NutsAuthenticationCredential`. 
+for how to issue `NutsOrganizationCredential` and `NutsAuthenticationCredential`.
 
 # Versioning
 

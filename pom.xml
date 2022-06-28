@@ -12,7 +12,8 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <openapi.spec.baseurl>https://raw.githubusercontent.com/nuts-foundation/nuts-node/master/docs/_static</openapi.spec.baseurl>
+        <nuts.version>3.0.0</nuts.version>
+        <openapi.spec.baseurl>https://raw.githubusercontent.com/nuts-foundation/nuts-node/v${nuts.version}/docs/_static</openapi.spec.baseurl>
         <openapi.spec.dir>${project.build.outputDirectory}/spec</openapi.spec.dir>
         <!-- OpenAPI Generator properties -->
         <openapi.generator.maven.plugin.output>${project.basedir}/generated</openapi.generator.maven.plugin.output>
@@ -55,14 +56,14 @@
                                 <mkdir dir="${openapi.spec.dir}/common/"/>
                                 <get src="${openapi.spec.baseurl}/common/error_response.yaml"
                                      dest="${openapi.spec.dir}/common/error_response.yaml"/>
+                                <get src="${openapi.spec.baseurl}/common/ssi_types.yaml"
+                                     dest="${openapi.spec.dir}/common/ssi_types.yaml"/>
                                 <!-- VDR -->
                                 <mkdir dir="${openapi.spec.dir}/vdr/"/>
                                 <get src="${openapi.spec.baseurl}/vdr/v1.yaml"
                                      dest="${openapi.spec.dir}/vdr/v1.yaml"/>
                                 <!-- VCR -->
                                 <mkdir dir="${openapi.spec.dir}/vcr/"/>
-                                <get src="${openapi.spec.baseurl}/vcr/v1.yaml"
-                                     dest="${openapi.spec.dir}/vcr/v1.yaml"/>
                                 <get src="${openapi.spec.baseurl}/vcr/v2.yaml"
                                      dest="${openapi.spec.dir}/vcr/v2.yaml"/>
                                 <!-- DIDMan -->
@@ -126,19 +127,6 @@
                         </configuration>
                     </execution>
                     <!-- VCR -->
-                    <execution>
-                        <id>generate-vcr-client-v1</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${openapi.spec.dir}/vcr/v1.yaml</inputSpec>
-                            <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.vcr.v1</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.vcr.v1</modelPackage>
-                            </configOptions>
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>generate-vcr-client-v2</id>
                         <goals>
