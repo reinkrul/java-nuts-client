@@ -6,8 +6,32 @@ import nl.reinkrul.nuts.extra.NutsAuthorizationCredential;
 import nl.reinkrul.nuts.extra.NutsOrganizationCredential;
 import nl.reinkrul.nuts.vcr.v2.CredentialApi;
 import nl.reinkrul.nuts.vcr.v2.IssueVCRequest;
+import nl.reinkrul.nuts.vcr.v2.SearchVCRequest;
 
 public class CredentialExamples {
+
+//    TODO
+//    public void searchNutsOrganizationCredential() throws nl.reinkrul.nuts.vcr.ApiException {
+//        var client = new CredentialApi();
+//        var issuedVC = client.searchVCs(new SearchVCRequest()
+//                // General VC properties
+//                        .setQuery()
+//                .type("NutsOrganizationCredential")
+//                .issuer("did:nuts:some-did") // the DID of the issuer of the credential (DID of software vendor)
+//                .visibility(IssueVCRequest.VisibilityEnum.PUBLIC) // publish on network, anyone can read it
+//                // Subject of the credential
+//                .credentialSubject(
+//                        new NutsOrganizationCredential()
+//                                .id("did:nuts:some-other-did") // the DID of the receiver of the credential
+//                                .organization(new nl.reinkrul.nuts.extra.Organization()
+//                                        .name("Extra Careful B.V.")
+//                                        .city("Zorgdorp")
+//                                )
+//                )
+//        );
+//
+//        System.out.println("VC has been issued, ID: " + issuedVC.());
+//    }
 
     public void issueNutsOrganizationCredential() throws nl.reinkrul.nuts.vcr.ApiException {
         var client = new CredentialApi();

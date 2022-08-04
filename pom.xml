@@ -24,7 +24,7 @@
         <dependency>
             <groupId>nl.reinkrul.nuts</groupId>
             <artifactId>java-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>3.0.0</version>
         </dependency>
     </dependencies>
 
