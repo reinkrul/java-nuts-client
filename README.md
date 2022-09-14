@@ -14,7 +14,7 @@ It is generated from the latest version of the OpenAPI specifications of the Nut
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>4.0.0</version>
+    <version>4.0.1</version>
 </dependency>
 ```
 
@@ -54,14 +54,13 @@ Run `make`:
 
 # Publishing
 
-Run `make` first.
-
 1. Update `nuts.version` version in `pom.xml`.
-2. Update artifact version to next major/minor (to `x.y.z`):
+2. Run `make`
+3. Update artifact version to next major/minor (to `x.y.z`):
     ```shell
     mvn -f generated/pom.xml versions:set
     ```
-3. Add the following configuration to the `maven-gpg-plugin`:
+4. Add the following configuration to the `maven-gpg-plugin`:
     ```xml
     <configuration>
         <gpgArguments>
@@ -70,9 +69,9 @@ Run `make` first.
         </gpgArguments>
     </configuration>
     ```
-4. Then build and sign:
+5. Then build and sign:
     ```shell
     mvn -f generated/pom.xml deploy -Psign-artifacts -DaltDeploymentRepository=ossrh::default::https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
     ```
-5. Log in to [Sonatype](https://s01.oss.sonatype.org/) and close & release staging repository (see https://central.sonatype.org/publish/publish-maven/).
-6. Update dependency version in `pom.xml` to the new version, update examples if required, commit and push.
+6. Log in to [Sonatype](https://s01.oss.sonatype.org/) and close & release staging repository (see https://central.sonatype.org/publish/publish-maven/).
+7. Update dependency version in `pom.xml` to the new version, update examples if required, commit and push.

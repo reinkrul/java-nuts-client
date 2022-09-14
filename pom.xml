@@ -12,7 +12,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <nuts.version>4.0.0</nuts.version>
+        <nuts.version>4.2.2</nuts.version>
         <openapi.spec.baseurl>https://raw.githubusercontent.com/nuts-foundation/nuts-node/v${nuts.version}/docs/_static</openapi.spec.baseurl>
         <openapi.spec.dir>${project.build.outputDirectory}/spec</openapi.spec.dir>
         <!-- OpenAPI Generator properties -->
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>nl.reinkrul.nuts</groupId>
             <artifactId>java-client</artifactId>
-            <version>4.0.0</version>
+            <version>4.0.1</version>
         </dependency>
     </dependencies>
 
