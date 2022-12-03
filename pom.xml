@@ -12,7 +12,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <nuts.version>4.2.2</nuts.version>
+        <nuts.version>5.0.2</nuts.version>
         <openapi.spec.baseurl>https://raw.githubusercontent.com/nuts-foundation/nuts-node/v${nuts.version}/docs/_static</openapi.spec.baseurl>
         <openapi.spec.dir>${project.build.outputDirectory}/spec</openapi.spec.dir>
         <!-- OpenAPI Generator properties -->
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>nl.reinkrul.nuts</groupId>
             <artifactId>java-client</artifactId>
-            <version>4.0.1</version>
+            <version>5.0.0</version>
         </dependency>
     </dependencies>
 
@@ -56,7 +56,8 @@
                                 <mkdir dir="${openapi.spec.dir}/common/"/>
                                 <get src="${openapi.spec.baseurl}/common/error_response.yaml"
                                      dest="${openapi.spec.dir}/common/error_response.yaml"/>
-                                <get src="${openapi.spec.baseurl}/common/ssi_types.yaml"
+                                <!-- Change back to ${openapi.spec.baseurl}/common/ssi_types.yaml after https://github.com/nuts-foundation/nuts-node/pull/1728 has been merged -->
+                                <get src="https://raw.githubusercontent.com/nuts-foundation/nuts-node/openapi-common/docs/_static/common/ssi_types.yaml"
                                      dest="${openapi.spec.dir}/common/ssi_types.yaml"/>
                                 <!-- VDR -->
                                 <mkdir dir="${openapi.spec.dir}/vdr/"/>
@@ -90,7 +91,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>5.1.0</version>
+                <version>6.2.1</version>
                 <configuration>
                     <generatorName>java</generatorName>
                     <configOptions>
@@ -109,9 +110,38 @@
                         <!-- Misc -->
                         <artifactDescription>Java client library for using the Nuts Node's REST API.</artifactDescription>
                     </configOptions>
-<!--                    <configHelp>true</configHelp>-->
+                    <!-- Mappings to support single common model, so they don't duplicate for each module -->
+                    <schemaMappings>
+                        DIDDocument=nl.reinkrul.nuts.common.DIDDocument,
+                        DIDDocumentMetadata=nl.reinkrul.nuts.common.DIDDocumentMetadata,
+                        EmbeddedProof=nl.reinkrul.nuts.common.EmbeddedProof,
+                        Revocation=nl.reinkrul.nuts.common.Revocation,
+                        Service=nl.reinkrul.nuts.common.Service,
+                        VerifiableCredential=nl.reinkrul.nuts.common.VerifiableCredential,
+                        VerifiablePresentation=nl.reinkrul.nuts.common.VerifiablePresentation,
+                        VerificationMethod=nl.reinkrul.nuts.common.VerificationMethod
+                    </schemaMappings>
                 </configuration>
                 <executions>
+                    <!-- Common -->
+                    <execution>
+                        <id>generate-common-ssi-types</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${openapi.spec.dir}/common/ssi_types.yaml</inputSpec>
+                            <skipValidateSpec>true</skipValidateSpec>
+                            <validateSpec>false</validateSpec>
+                            <!-- Reset schema mappings, which are there for commons -->
+                            <schemaMappings>foo=bar</schemaMappings>
+                            <configOptions>
+                                <apiPackage>nl.reinkrul.nuts.common</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.common</modelPackage>
+                                <generateApis>false</generateApis>
+                            </configOptions>
+                        </configuration>
+                    </execution>
                     <!-- VDR -->
                     <execution>
                         <id>generate-vdr-client</id>
@@ -128,15 +158,15 @@
                     </execution>
                     <!-- VCR -->
                     <execution>
-                        <id>generate-vcr-client-v2</id>
+                        <id>generate-vcr-client</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/vcr/v2.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.vcr.v2</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.vcr.v2</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.vcr</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.vcr</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>

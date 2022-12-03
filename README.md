@@ -14,7 +14,7 @@ It is generated from the latest version of the OpenAPI specifications of the Nut
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>4.0.1</version>
+    <version>5.0.0</version>
 </dependency>
 ```
 
