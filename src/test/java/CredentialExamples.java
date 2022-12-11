@@ -1,5 +1,3 @@
-package examples;
-
 import nl.reinkrul.nuts.ApiException;
 import nl.reinkrul.nuts.common.VerifiableCredential;
 import nl.reinkrul.nuts.extra.FHIRResource;

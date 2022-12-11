@@ -12,7 +12,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <nuts.version>5.0.2</nuts.version>
+        <nuts.version>5.0.3</nuts.version>
         <openapi.spec.baseurl>https://raw.githubusercontent.com/nuts-foundation/nuts-node/v${nuts.version}/docs/_static</openapi.spec.baseurl>
         <openapi.spec.dir>${project.build.outputDirectory}/spec</openapi.spec.dir>
         <!-- OpenAPI Generator properties -->
@@ -24,7 +24,13 @@
         <dependency>
             <groupId>nl.reinkrul.nuts</groupId>
             <artifactId>java-client</artifactId>
-            <version>5.0.0</version>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.9.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -123,7 +129,21 @@
                     </schemaMappings>
                 </configuration>
                 <executions>
-                    <!-- Common -->
+                    <!-- Model-only OpenAPI specs need to be generated first, otherwise the ApiClient will be missing authentication schemes -->
+                    <execution>
+                        <id>generate-additions</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>specs/credentials.yaml</inputSpec>
+                            <generateApis>false</generateApis>
+                            <configOptions>
+                                <apiPackage>nl.reinkrul.nuts.extra</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.extra</modelPackage>
+                            </configOptions>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>generate-common-ssi-types</id>
                         <goals>
@@ -226,21 +246,6 @@
                             </configOptions>
                         </configuration>
                     </execution>
-                    <!-- Additions -->
-                    <execution>
-                        <id>generate-additions</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>specs/credentials.yaml</inputSpec>
-                            <generateApis>false</generateApis>
-                            <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.extra</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.extra</modelPackage>
-                            </configOptions>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -264,6 +269,14 @@
                         </replacement>
                     </replacements>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
             </plugin>
         </plugins>
     </build>
