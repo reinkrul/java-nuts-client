@@ -1,0 +1,11 @@
+# Required to make it a valid OpenAPI spec (can be removed when migrating to OAS 3.1.0):
+info:
+  title: foo
+  version: 1.0.0
+paths:
+  /bogus:
+    get:
+      operationId: bogus
+      responses:
+        "200":
+          description: Bogus
