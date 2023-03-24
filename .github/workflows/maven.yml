@@ -13,11 +13,11 @@ on:
 
 jobs:
   build:
-    name: Build Nuts Auth Service API spec
+    name: Build Nuts Java Client Library
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '8' ]
+        java: [ '11' ]
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK
