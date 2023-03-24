@@ -1,5 +1,4 @@
-*.iml
-*.idea
-generated
 target
-.DS_Store
+pom.xml.versionsBackup
+.idea
+*.iml

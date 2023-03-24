@@ -50,28 +50,15 @@ Run `make`:
 
 1. Fetches the latest version of the OpenAPI specifications.
 2. Generates the API client.
-3. Builds it and installs it in the local Maven repository.
 
 # Publishing
 
 1. Update `nuts.version` version in `pom.xml`.
-2. Run `make`
-3. Update artifact version to next major/minor (to `x.y.z`):
-    ```shell
-    mvn -f generated/pom.xml versions:set
-    ```
-4. Add the following configuration to the `maven-gpg-plugin`:
-    ```xml
-    <configuration>
-        <gpgArguments>
-            <arg>--pinentry-mode</arg>
-            <arg>loopback</arg>
-        </gpgArguments>
-    </configuration>
-    ```
-5. Then build and sign:
-    ```shell
-    mvn -f generated/pom.xml deploy -Psign-artifacts -DaltDeploymentRepository=ossrh::default::https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
-    ```
-6. Log in to [Sonatype](https://s01.oss.sonatype.org/) and close & release staging repository (see https://central.sonatype.org/publish/publish-maven/).
-7. Update dependency version in `pom.xml` to the new version, update examples if required, commit and push.
+2. Run `make build`
+3. Update artifact version to next major/minor (to `x.y.z`) and then release.
+   ```shell
+   make release
+   ```
+
+5. Log in to [Sonatype](https://s01.oss.sonatype.org/) and close & release staging repository (see https://central.sonatype.org/publish/publish-maven/).
+6. Update dependency version in `pom.xml` to the new version, update examples if required, commit and push.

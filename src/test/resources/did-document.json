@@ -1,0 +1,82 @@
+{
+  "@context": [
+    "https://nuts.nl/did/v1",
+    "https://w3c-ccg.github.io/lds-jws2020/contexts/lds-jws2020-v1.json",
+    "https://www.w3.org/ns/did/v1"
+  ],
+  "assertionMethod": "did:nuts:abcdefghijklmnop#O3eeRpfbzfX33nBjtnAmlbmRRg1_LUOxiYovxxd9BF0",
+  "authentication": [
+    "did:nuts:abcdefghijklmnop#O3eeRpfbzfX33nBjtnAmlbmRRg1_LUOxiYovxxd9BF0"
+  ],
+  "capabilityDelegation": [
+    "did:nuts:abcdefghijklmnop#O3eeRpfbzfX33nBjtnAmlbmRRg1_LUOxiYovxxd9BF0"
+  ],
+  "capabilityInvocation": [
+    "did:nuts:abcdefghijklmnop#O3eeRpfbzfX33nBjtnAmlbmRRg1_LUOxiYovxxd9BF0"
+  ],
+  "id": "did:nuts:abcdefghijklmnop",
+  "keyAgreement": [
+    "did:nuts:abcdefghijklmnop#O3eeRpfbzfX33nBjtnAmlbmRRg1_LUOxiYovxxd9BF0"
+  ],
+  "service": [
+    {
+      "id": "did:nuts:abcdefghijklmnop#CXkz2EZWy3nDeHQ5yXE2jdrgnJQy1adWCCxzm5gmVoRT",
+      "serviceEndpoint": {
+        "email": "info@example.com",
+        "name": "Ad Ministrator",
+        "phone": "0612345678",
+        "website": "https://www.example.com"
+      },
+      "type": "node-contact-info"
+    },
+    {
+      "id": "did:nuts:abcdefghijklmnop#2DAHfiEhNAqzjZiTQK2yesEReL3V2ecBeubr7r6q2eqK",
+      "serviceEndpoint": "grpc://nuts.example.com:5555",
+      "type": "NutsComm"
+    },
+    {
+      "id": "did:nuts:abcdefghijklmnop#HqRvUrTphxchDVPZdDQNCgLCmzmudxJPM3w1sSz4NawW",
+      "serviceEndpoint": "https://fhir.example.com",
+      "type": "fhir"
+    },
+    {
+      "id": "did:nuts:abcdefghijklmnop#FzHNFLoKNMBrJuZjy8u8KzAjSMKpnkYuka8xPpQftiph",
+      "serviceEndpoint": "https://oauth.example.com/token",
+      "type": "oauth"
+    },
+    {
+      "id": "did:nuts:abcdefghijklmnop#Ad5te1sE6EjuUBZBGP9tbP7GidvKkEmsdMr2hsZ3u4Sn",
+      "serviceEndpoint": "https://server.example.com/notifications",
+      "type": "notification"
+    },
+    {
+      "id": "did:nuts:abcdefghijklmnop#F8E7Nct7gjZts35iYTBgsRe3Nnok8UhDXvmoySz5sEEa",
+      "serviceEndpoint": {
+        "fhir": "did:nuts:abcdefghijklmnop/serviceEndpoint?type=fhir",
+        "oauth": "did:nuts:abcdefghijklmnop/serviceEndpoint?type=oauth"
+      },
+      "type": "eOverdracht-sender"
+    },
+    {
+      "id": "did:nuts:abcdefghijklmnop#4JkHRULLqsTKDYdpvWJUo5rNCqrzSNHdeY83ErzSZT4v",
+      "serviceEndpoint": {
+        "notification": "did:nuts:abcdefghijklmnop/serviceEndpoint?type=notification",
+        "oauth": "did:nuts:abcdefghijklmnop/serviceEndpoint?type=oauth"
+      },
+      "type": "eOverdracht-receiver"
+    }
+  ],
+  "verificationMethod": [
+    {
+      "controller": "did:nuts:abcdefghijklmnop",
+      "id": "did:nuts:abcdefghijklmnop#O3eeRpfbzfX33nBjtnAmlbmRRg1_LUOxiYovxxd9BF0",
+      "publicKeyJwk": {
+        "crv": "P-256",
+        "kty": "EC",
+        "x": "dlTtKKB14mIgS0mGfUZRu-WzYb0CKf1TiGiX1OIfbMY",
+        "y": "LNkEEl31VEAORYQg0L0i5BUx6C0cQQSX8Lce7cIBbeU"
+      },
+      "type": "JsonWebKey2020"
+    }
+  ]
+}

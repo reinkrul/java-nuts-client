@@ -1,12 +1,12 @@
-.PHONY: all
+.PHONY: generate
 
-all: regenerate build-install vet
-
-regenerate:
+generate:
 	mvn clean generate-sources
 
-vet:
-	mvn surefire:test
+install:
+	mvn clean install
 
-build-install:
-	cd generated && mvn install
+release:
+	mvn clean
+	mvn versions:set
+	mvn deploy -Psign-artifacts -DaltDeploymentRepository=ossrh::default::https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/

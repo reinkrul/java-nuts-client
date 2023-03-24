@@ -5,20 +5,54 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.reinkrul.nuts</groupId>
-    <artifactId>java-client-generator</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>java-client</artifactId>
+    <packaging>jar</packaging>
+    <version>5.2.0-rc.1</version>
+    <name>Java Nuts Client Library</name>
+
+    <url>https://github.com/reinkrul/java-nuts-client</url>
+    <description>Java client library for using the Nuts Node's REST API.</description>
+    <scm>
+        <connection>https://github.com/reinkrul/java-nuts-client.git</connection>
+        <developerConnection>https://github.com/reinkrul/java-nuts-client.git</developerConnection>
+        <url>https://github.com/reinkrul/java-nuts-client</url>
+    </scm>
+    <licenses>
+        <license>
+            <name>Unlicense</name>
+            <url>http://unlicense.org</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Rein Krul</name>
+            <email>info@reinkrul.nl</email>
+            <organization>Rein Krul IT Consultancy</organization>
+            <organizationUrl>https://www.reinkrul.nl</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <nuts.version>5.1.0</nuts.version>
-        <openapi.spec.baseurl>https://raw.githubusercontent.com/nuts-foundation/nuts-node/v${nuts.version}/docs/_static</openapi.spec.baseurl>
+        <nuts.version>master</nuts.version>
+        <openapi.spec.baseurl>
+            https://raw.githubusercontent.com/nuts-foundation/nuts-node/${nuts.version}/docs/_static
+        </openapi.spec.baseurl>
         <openapi.spec.dir>${project.build.outputDirectory}/spec</openapi.spec.dir>
         <!-- OpenAPI Generator properties -->
-        <openapi.generator.maven.plugin.output>${project.basedir}/</openapi.generator.maven.plugin.output>
+        <openapi.generator.maven.plugin.output>${project.basedir}/target/generated
+        </openapi.generator.maven.plugin.output>
         <openapi.generator.maven.plugin.artifactVersion>1.0-SNAPSHOT</openapi.generator.maven.plugin.artifactVersion>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>danubetech-maven-public</id>
+            <url>https://repo.danubetech.com/repository/maven-public/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -28,11 +62,15 @@
             <scope>test</scope>
         </dependency>
 
-        <!--  -->
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.14.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -45,9 +83,9 @@
             <version>1.6.9</version>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
+            <groupId>decentralized-identity</groupId>
+            <artifactId>did-common-java</artifactId>
+            <version>1.4.0</version>
         </dependency>
     </dependencies>
 
@@ -120,13 +158,12 @@
                 <version>6.2.1</version>
                 <configuration>
                     <generatorName>java</generatorName>
-                    <generateSupportingFiles>true</generateSupportingFiles>
                     <generateModelTests>false</generateModelTests>
                     <generateModelDocumentation>false</generateModelDocumentation>
                     <generateApiTests>false</generateApiTests>
+                    <generateApis>true</generateApis>
                     <generateApiDocumentation>false</generateApiDocumentation>
                     <configOptions>
-                        <sourceFolder>src/generated/java</sourceFolder>
                         <groupId>nl.reinkrul.nuts</groupId>
                         <artifactId>java-client</artifactId>
                         <!-- SCM -->
@@ -140,11 +177,15 @@
                         <developerOrganization>Rein Krul IT Consultancy</developerOrganization>
                         <developerOrganizationUrl>https://www.reinkrul.nl</developerOrganizationUrl>
                         <!-- Misc -->
-                        <artifactDescription>Java client library for using the Nuts Node's REST API.</artifactDescription>
+                        <artifactDescription>Java client library for using the Nuts Node's REST API.
+                        </artifactDescription>
+                        <library>native</library>
                     </configOptions>
+                    <typeMappings>
+                        DIDDocument=foundation.identity.did.DIDDocument
+                    </typeMappings>
                     <!-- Mappings to support single common model, so they don't duplicate for each module -->
                     <schemaMappings>
-                        DIDDocument=nl.reinkrul.nuts.common.DIDDocument,
                         DIDDocumentMetadata=nl.reinkrul.nuts.common.DIDDocumentMetadata,
                         EmbeddedProof=nl.reinkrul.nuts.common.EmbeddedProof,
                         Revocation=nl.reinkrul.nuts.common.Revocation,
@@ -178,7 +219,6 @@
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/common/ssi_types.yaml</inputSpec>
                             <skipValidateSpec>true</skipValidateSpec>
-                            <validateSpec>false</validateSpec>
                             <!-- Reset schema mappings, which are there for commons -->
                             <schemaMappings>foo=bar</schemaMappings>
                             <configOptions>
@@ -277,7 +317,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>add-source</id>
@@ -287,7 +326,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/generated/java</source>
+                                <source>${project.build.directory}/generated/src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -301,6 +340,66 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M7</version>
             </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doclint>none</doclint>
+                    <tags>
+                        <tag>
+                            <name>http.response.details</name>
+                            <placement>a</placement>
+                            <head>Http Response Details:</head>
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>sign-artifacts</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
