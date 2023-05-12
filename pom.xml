@@ -7,7 +7,7 @@
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
     <packaging>jar</packaging>
-    <version>5.2.0-rc.1</version>
+    <version>5.3.0-rc.1</version>
     <name>Java Nuts Client Library</name>
 
     <url>https://github.com/reinkrul/java-nuts-client</url>
@@ -87,6 +87,21 @@
             <artifactId>did-common-java</artifactId>
             <version>1.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.3.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -129,8 +144,8 @@
                                      dest="${openapi.spec.dir}/vdr/v1.yaml"/>
                                 <!-- VCR -->
                                 <mkdir dir="${openapi.spec.dir}/vcr/"/>
-                                <get src="${openapi.spec.baseurl}/vcr/v2.yaml"
-                                     dest="${openapi.spec.dir}/vcr/v2.yaml"/>
+                                <get src="${openapi.spec.baseurl}/vcr/vcr_v2.yaml"
+                                     dest="${openapi.spec.dir}/vcr/vcr_v2.yaml"/>
                                 <!-- DIDMan -->
                                 <mkdir dir="${openapi.spec.dir}/didman/"/>
                                 <get src="${openapi.spec.baseurl}/didman/v1.yaml"
@@ -155,7 +170,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>6.2.1</version>
+                <version>6.6.0</version>
                 <configuration>
                     <generatorName>java</generatorName>
                     <generateModelTests>false</generateModelTests>
@@ -177,12 +192,11 @@
                         <developerOrganization>Rein Krul IT Consultancy</developerOrganization>
                         <developerOrganizationUrl>https://www.reinkrul.nl</developerOrganizationUrl>
                         <!-- Misc -->
-                        <artifactDescription>Java client library for using the Nuts Node's REST API.
-                        </artifactDescription>
+                        <artifactDescription>Java client library for using the Nuts Node's REST API.</artifactDescription>
                         <library>native</library>
                     </configOptions>
                     <typeMappings>
-                        DIDDocument=foundation.identity.did.DIDDocument
+                        DIDDocument=nl.reinkrul.nuts.common.DIDDocument
                     </typeMappings>
                     <!-- Mappings to support single common model, so they don't duplicate for each module -->
                     <schemaMappings>
@@ -220,7 +234,7 @@
                             <inputSpec>${openapi.spec.dir}/common/ssi_types.yaml</inputSpec>
                             <skipValidateSpec>true</skipValidateSpec>
                             <!-- Reset schema mappings, which are there for commons -->
-                            <schemaMappings>foo=bar</schemaMappings>
+                            <schemaMappings>DIDDocument=nl.reinkrul.nuts.common.DIDDocument</schemaMappings>
                             <configOptions>
                                 <apiPackage>nl.reinkrul.nuts.common</apiPackage>
                                 <modelPackage>nl.reinkrul.nuts.common</modelPackage>
@@ -249,7 +263,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${openapi.spec.dir}/vcr/v2.yaml</inputSpec>
+                            <inputSpec>${openapi.spec.dir}/vcr/vcr_v2.yaml</inputSpec>
                             <configOptions>
                                 <apiPackage>nl.reinkrul.nuts.vcr</apiPackage>
                                 <modelPackage>nl.reinkrul.nuts.vcr</modelPackage>
