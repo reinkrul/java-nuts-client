@@ -178,6 +178,9 @@
                     <generateApiTests>false</generateApiTests>
                     <generateApis>true</generateApis>
                     <generateApiDocumentation>false</generateApiDocumentation>
+                    <additionalProperties>
+                        supportUrlQuery=false
+                    </additionalProperties>
                     <configOptions>
                         <groupId>nl.reinkrul.nuts</groupId>
                         <artifactId>java-client</artifactId>
