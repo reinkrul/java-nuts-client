@@ -14,7 +14,7 @@ It is generated from the latest version of the OpenAPI specifications of the Nut
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>5.3.0-rc.1</version>
+    <version>5.3.0-rc.2</version>
 </dependency>
 ```
 
@@ -37,7 +37,7 @@ You can find in their own subpackage in `nl.reinkrul.nuts` (e.g. `nl.reinkrul.nu
 # Examples
 
 See [src/test/java/CredentialExamples.java](src/test/java/CredentialExamples.java)
-for how to issue `NutsOrganizationCredential` and `NutsAuthenticationCredential`.
+for how to issue `NutsOrganizationCredential`, `NutsAuthenticationCredential` and `NutsEmployeeCredential`.
 
 # Versioning
 
@@ -54,7 +54,7 @@ Run `make`:
 # Publishing
 
 1. Update `nuts.version` version in `pom.xml`.
-2. Run `make build`
+2. Run `make`
 3. Update artifact version to next major/minor (to `x.y.z`) and then release.
    ```shell
    make release

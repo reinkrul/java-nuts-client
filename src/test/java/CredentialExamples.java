@@ -1,8 +1,6 @@
 import nl.reinkrul.nuts.ApiException;
 import nl.reinkrul.nuts.common.VerifiableCredential;
-import nl.reinkrul.nuts.extra.FHIRResource;
-import nl.reinkrul.nuts.extra.NutsAuthorizationCredential;
-import nl.reinkrul.nuts.extra.NutsOrganizationCredential;
+import nl.reinkrul.nuts.extra.*;
 import nl.reinkrul.nuts.vcr.*;
 
 import java.util.List;
@@ -69,7 +67,39 @@ public class CredentialExamples {
                                         // The FHIR resources that can be accessed using the credential
                                         new FHIRResource()
                                                 .path("/Task/1")
+                                                .userContext(true)
+                                                .assuranceLevel(FHIRResource.AssuranceLevelEnum.LOW)
                                                 .addOperationsItem("read")
+                                )
+                )
+        );
+
+        System.out.println("VC has been issued, ID: " + issuedVC.getId());
+    }
+
+    public void issueNutsEmployeeCredential() throws ApiException {
+        var client = new CredentialApi();
+        var issuedVC = client.issueVC(new IssueVCRequest()
+                // General VC properties
+                .type("NutsEmployeeCredential")
+                .issuer("did:nuts:some-did") // the DID of the issuer of the credential
+                // Subject of the credential
+                .credentialSubject(
+                        new NutsEmployeeCredential()
+                                .id("did:nuts:some-did") // the DID of the receiver of the credential, equal to the issuer for NutsEmployeeCredential
+                                .type(NutsEmployeeCredential.TypeEnum.ORGANIZATION) // hardcoded
+                                .member(
+                                        new OrganizationMember()
+                                                .identifier("12345678")
+                                                .type(OrganizationMember.TypeEnum.EMPLOYEEROLE) // hardcoded
+                                                .roleName("Verpleegkundige niveau 2") // optional
+                                                .member(
+                                                        new OrganizationMemberMember()
+                                                                .type(OrganizationMemberMember.TypeEnum.PERSON) // hardcoded
+                                                                .initials("A.B.")
+                                                                .familyName("van der Zorg")
+                                                )
+
                                 )
                 )
         );
