@@ -1,7 +1,9 @@
-package nl.reinkrul.nuts;
+package nl.reinkrul.nuts.v6;
 
 import com.sun.net.httpserver.HttpServer;
-import nl.reinkrul.nuts.vdr.DidApi;
+import nl.reinkrul.nuts.ApiException;
+import nl.reinkrul.nuts.Configuration;
+import nl.reinkrul.nuts.vdr.v2.DidApi;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,7 @@ import java.net.ServerSocket;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MarshalTest {
+public class VdrTest {
 
     private static HttpServer server;
 
@@ -25,9 +27,10 @@ public class MarshalTest {
         }
 
         server = HttpServer.create(new InetSocketAddress("localhost", port), 10);
-        server.createContext("/internal/vdr/v1/did/did:nuts:abcdefghijklmnop", exchange -> {
+        server.createContext("/internal/vdr/v2/did/did:nuts:abcdefghijklmnop", exchange -> {
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
                     exchange.sendResponseHeaders(200, 0);
-                    try (InputStream inputStream = MarshalTest.class.getResourceAsStream("/did-resolution-result.json")) {
+                    try (InputStream inputStream = VdrTest.class.getResourceAsStream("/did-resolution-result.json")) {
                         exchange.getResponseBody().write(inputStream.readAllBytes());
                     }
                     exchange.close();
@@ -44,11 +47,11 @@ public class MarshalTest {
 
     @Test
     public void didDocument() throws ApiException {
-        var apiClient = new ApiClient();
-        apiClient.updateBaseUri("http://localhost:" + server.getAddress().getPort());
+        var apiClient = Configuration.getDefaultApiClient();
+        apiClient.setBasePath("http://localhost:" + server.getAddress().getPort());
         var didApi = new DidApi(apiClient);
 
-        var result = didApi.getDID("did:nuts:abcdefghijklmnop", null, null);
+        var result = didApi.resolveDID("did:nuts:abcdefghijklmnop");
 
         assertEquals("did:nuts:abcdefghijklmnop", result.getDocument().getId().toString());
     }

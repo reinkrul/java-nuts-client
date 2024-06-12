@@ -36,7 +36,7 @@ You can find in their own subpackage in `nl.reinkrul.nuts` (e.g. `nl.reinkrul.nu
 
 # Examples
 
-See [src/test/java/CredentialExamples.java](src/test/java/CredentialExamples.java)
+See [src/test/java/v6.CredentialExamples.java](src/test/java/v6.CredentialExamples.java)
 for how to issue `NutsOrganizationCredential`, `NutsAuthenticationCredential` and `NutsEmployeeCredential`.
 
 # Versioning

@@ -7,7 +7,7 @@
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
     <packaging>jar</packaging>
-    <version>5.3.0</version>
+    <version>6.0.0-beta.1</version>
     <name>Java Nuts Client Library</name>
 
     <url>https://github.com/reinkrul/java-nuts-client</url>
@@ -34,9 +34,9 @@
     </developers>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <nuts.version>v5.3.0</nuts.version>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
+        <nuts.version>master</nuts.version>
         <openapi.spec.baseurl>
             https://raw.githubusercontent.com/nuts-foundation/nuts-node/${nuts.version}/docs/_static
         </openapi.spec.baseurl>
@@ -44,6 +44,12 @@
         <!-- OpenAPI Generator properties -->
         <openapi.generator.maven.plugin.output>${project.basedir}/target/generated</openapi.generator.maven.plugin.output>
         <openapi.generator.maven.plugin.artifactVersion>1.0-SNAPSHOT</openapi.generator.maven.plugin.artifactVersion>
+
+        <jersey-version>3.1.1</jersey-version>
+        <jackson-version>2.15.2</jackson-version>
+        <jackson-databind-version>2.15.2</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
     </properties>
 
     <repositories>
@@ -54,6 +60,73 @@
     </repositories>
 
     <dependencies>
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+        <!-- HTTP client: jersey-client -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+
+        <!-- JSON processing: jackson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.connectors</groupId>
+            <artifactId>jersey-apache-connector</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -61,21 +134,7 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.14.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
-        </dependency>
+
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
@@ -85,6 +144,11 @@
             <groupId>decentralized-identity</groupId>
             <artifactId>did-common-java</artifactId>
             <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.danubetech</groupId>
+            <artifactId>verifiable-credentials-java</artifactId>
+            <version>1.7.0</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -126,7 +190,7 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <!-- Commons -->
                                 <mkdir dir="${openapi.spec.dir}/common/"/>
                                 <get src="${openapi.spec.baseurl}/common/error_response.yaml"
@@ -141,14 +205,21 @@
                                 <mkdir dir="${openapi.spec.dir}/vdr/"/>
                                 <get src="${openapi.spec.baseurl}/vdr/v1.yaml"
                                      dest="${openapi.spec.dir}/vdr/v1.yaml"/>
+                                <mkdir dir="${openapi.spec.dir}/vdr/"/>
+                                <get src="${openapi.spec.baseurl}/vdr/v2.yaml"
+                                     dest="${openapi.spec.dir}/vdr/v2.yaml"/>
                                 <!-- VCR -->
                                 <mkdir dir="${openapi.spec.dir}/vcr/"/>
                                 <get src="${openapi.spec.baseurl}/vcr/vcr_v2.yaml"
-                                     dest="${openapi.spec.dir}/vcr/vcr_v2.yaml"/>
+                                     dest="${openapi.spec.dir}/vcr/v2.yaml"/>
                                 <!-- DIDMan -->
                                 <mkdir dir="${openapi.spec.dir}/didman/"/>
                                 <get src="${openapi.spec.baseurl}/didman/v1.yaml"
                                      dest="${openapi.spec.dir}/didman/v1.yaml"/>
+                                <!-- Discovery -->
+                                <mkdir dir="${openapi.spec.dir}/discovery/"/>
+                                <get src="${openapi.spec.baseurl}/discovery/v1.yaml"
+                                     dest="${openapi.spec.dir}/discovery/v1.yaml"/>
                                 <!-- Network -->
                                 <mkdir dir="${openapi.spec.dir}/network/"/>
                                 <get src="${openapi.spec.baseurl}/network/v1.yaml"
@@ -161,7 +232,23 @@
                                 <mkdir dir="${openapi.spec.dir}/auth/"/>
                                 <get src="${openapi.spec.baseurl}/auth/v1.yaml"
                                      dest="${openapi.spec.dir}/auth/v1.yaml"/>
-                            </tasks>
+                                <mkdir dir="${openapi.spec.dir}/auth/"/>
+                                <get src="${openapi.spec.baseurl}/auth/v2.yaml"
+                                     dest="${openapi.spec.dir}/auth/v2.yaml"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- We have our own Configuration class to provide ApiClient instances, since we need custom deserializers -->
+                        <id>remove-generated-configuration-class</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete file="target/generated/src/main/java/nl/reinkrul/nuts/Configuration.java"/>
+                            </target>
                         </configuration>
                     </execution>
                 </executions>
@@ -169,7 +256,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>6.6.0</version>
+                <version>7.5.0</version>
                 <configuration>
                     <generatorName>java</generatorName>
                     <generateModelTests>false</generateModelTests>
@@ -195,19 +282,21 @@
                         <developerOrganizationUrl>https://www.reinkrul.nl</developerOrganizationUrl>
                         <!-- Misc -->
                         <artifactDescription>Java client library for using the Nuts Node's REST API.</artifactDescription>
-                        <library>native</library>
+                        <library>jersey3</library>
                     </configOptions>
                     <typeMappings>
-                        DIDDocument=nl.reinkrul.nuts.common.DIDDocument
+
                     </typeMappings>
                     <!-- Mappings to support single common model, so they don't duplicate for each module -->
                     <schemaMappings>
+                        DIDDocument=nl.reinkrul.nuts.common.DIDDocument,
+                        VerifiableCredential=com.danubetech.verifiablecredentials.VerifiableCredential,
+                        VerifiablePresentation=com.danubetech.verifiablecredentials.VerifiablePresentation,
+
                         DIDDocumentMetadata=nl.reinkrul.nuts.common.DIDDocumentMetadata,
                         EmbeddedProof=nl.reinkrul.nuts.common.EmbeddedProof,
                         Revocation=nl.reinkrul.nuts.common.Revocation,
                         Service=nl.reinkrul.nuts.common.Service,
-                        VerifiableCredential=nl.reinkrul.nuts.common.VerifiableCredential,
-                        VerifiablePresentation=nl.reinkrul.nuts.common.VerifiablePresentation,
                         VerificationMethod=nl.reinkrul.nuts.common.VerificationMethod
                     </schemaMappings>
                 </configuration>
@@ -236,7 +325,11 @@
                             <inputSpec>${openapi.spec.dir}/common/ssi_types.yaml</inputSpec>
                             <skipValidateSpec>true</skipValidateSpec>
                             <!-- Reset schema mappings, which are there for commons -->
-                            <schemaMappings>DIDDocument=nl.reinkrul.nuts.common.DIDDocument</schemaMappings>
+                            <schemaMappings>
+                                DIDDocument=nl.reinkrul.nuts.common.DIDDocument,
+                                VerifiableCredential=com.danubetech.verifiablecredentials.VerifiableCredential,
+                                VerifiablePresentation=com.danubetech.verifiablecredentials.VerifiablePresentation
+                            </schemaMappings>
                             <configOptions>
                                 <apiPackage>nl.reinkrul.nuts.common</apiPackage>
                                 <modelPackage>nl.reinkrul.nuts.common</modelPackage>
@@ -246,15 +339,30 @@
                     </execution>
                     <!-- VDR -->
                     <execution>
-                        <id>generate-vdr-client</id>
+                        <id>generate-vdr-v1-client</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/vdr/v1.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.vdr</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.vdr</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.vdr.v1</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.vdr.v1</modelPackage>
+                                <invokerPackage>nl.reinkrul.nuts</invokerPackage>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-vdr-v2-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${openapi.spec.dir}/vdr/v2.yaml</inputSpec>
+                            <configOptions>
+                                <apiPackage>nl.reinkrul.nuts.vdr.v2</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.vdr.v2</modelPackage>
+                                <invokerPackage>nl.reinkrul.nuts</invokerPackage>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -265,7 +373,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${openapi.spec.dir}/vcr/vcr_v2.yaml</inputSpec>
+                            <inputSpec>${openapi.spec.dir}/vcr/v2.yaml</inputSpec>
                             <configOptions>
                                 <apiPackage>nl.reinkrul.nuts.vcr</apiPackage>
                                 <modelPackage>nl.reinkrul.nuts.vcr</modelPackage>
@@ -283,6 +391,20 @@
                             <configOptions>
                                 <apiPackage>nl.reinkrul.nuts.didman</apiPackage>
                                 <modelPackage>nl.reinkrul.nuts.didman</modelPackage>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <!-- Discovery Service -->
+                    <execution>
+                        <id>generate-discovery-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${openapi.spec.dir}/discovery/v1.yaml</inputSpec>
+                            <configOptions>
+                                <apiPackage>nl.reinkrul.nuts.discovery</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.discovery</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -314,17 +436,32 @@
                             </configOptions>
                         </configuration>
                     </execution>
-                    <!-- Crypto -->
+                    <!-- Auth -->
                     <execution>
-                        <id>generate-auth-client</id>
+                        <id>generate-auth-v1-client</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/auth/v1.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.auth</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.auth</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.auth.v1</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.auth.v1</modelPackage>
+                                <invokerPackage>nl.reinkrul.nuts</invokerPackage>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-auth-v2-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${openapi.spec.dir}/auth/v2.yaml</inputSpec>
+                            <configOptions>
+                                <apiPackage>nl.reinkrul.nuts.auth.v2</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.auth.v2</modelPackage>
+                                <invokerPackage>nl.reinkrul.nuts</invokerPackage>
                             </configOptions>
                         </configuration>
                     </execution>

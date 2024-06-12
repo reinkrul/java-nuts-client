@@ -1,29 +1,39 @@
+package v5;
+
+import com.danubetech.verifiablecredentials.CredentialSubject;
+import com.danubetech.verifiablecredentials.VerifiableCredential;
 import nl.reinkrul.nuts.ApiException;
-import nl.reinkrul.nuts.common.VerifiableCredential;
 import nl.reinkrul.nuts.extra.*;
 import nl.reinkrul.nuts.vcr.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 
 public class CredentialExamples {
 
-    public void searchNutsOrganizationCredential() throws ApiException {
+    public void searchNutsOrganizationCredential() throws ApiException, URISyntaxException {
         var client = new CredentialApi();
+        var query = VerifiableCredential.builder()
+                .type("NutsOrganizationCredential")
+                .contexts(List.of(new URI("https://nuts.nl/credentials/v1"), new URI("https://www.w3.org/2018/credentials/v1")))
+                .issuer(new URI("did:nuts:some-did")) // the DID of the issuer of the credential (DID of software vendor)
+                .credentialSubject(
+                        CredentialSubject.builder()
+                                .id(new URI("did:nuts:some-other-did")) // the DID of the receiver of the credential
+                                .claims(Map.of("organization", Map.of(
+                                        "name", "Extra Careful B.V.",
+                                        "city", "Zorgdorp"
+                                )))
+                                .build()
+                ).build();
         var issuedVC = client.searchVCs(new SearchVCRequest()
                 // Search options
                 .searchOptions(new SearchOptions().allowUntrustedIssuer(false))
                 // VC to match
-                .query(new VerifiableCredential()
-                        .type(List.of("VerifiableCredential", "NutsOrganizationCredential"))
-                        .atContext(List.of("https://nuts.nl/credentials/v1", "https://www.w3.org/2018/credentials/v1"))
-                        .issuer("did:nuts:some-did") // the DID of the issuer of the credential (DID of software vendor)
-                        .credentialSubject(
-                                new NutsOrganizationCredential()
-                                        .organization(new nl.reinkrul.nuts.extra.Organization()
-                                                .name("Extra Careful B.V.")
-                                                .city("Zorgdorp")
-                                        ))
-                ));
+                .query(query)
+        );
 
         for (SearchVCResult result : issuedVC.getVerifiableCredentials()) {
             System.out.println(result.getVerifiableCredential().getId());
@@ -34,14 +44,14 @@ public class CredentialExamples {
         var client = new CredentialApi();
         var issuedVC = client.issueVC(new IssueVCRequest()
                 // General VC properties
-                .type("NutsOrganizationCredential")
+                .type(new IssueVCRequestType("NutsAuthenticationCredential"))
                 .issuer("did:nuts:some-did") // the DID of the issuer of the credential (DID of software vendor)
                 .visibility(IssueVCRequest.VisibilityEnum.PUBLIC) // publish on network, anyone can read it
                 // Subject of the credential
                 .credentialSubject(
                         new NutsOrganizationCredential()
                                 .id("did:nuts:some-other-did") // the DID of the receiver of the credential
-                                .organization(new nl.reinkrul.nuts.extra.Organization()
+                                .organization(new Organization()
                                         .name("Extra Careful B.V.")
                                         .city("Zorgdorp")
                                 )
@@ -55,7 +65,7 @@ public class CredentialExamples {
         var client = new CredentialApi();
         var issuedVC = client.issueVC(new IssueVCRequest()
                 // General VC properties
-                .type("NutsAuthenticationCredential")
+                .type(new IssueVCRequestType("NutsAuthenticationCredential"))
                 .issuer("did:nuts:some-did") // the DID of the issuer of the credential
                 .visibility(IssueVCRequest.VisibilityEnum.PRIVATE) // publish on network, but keep it private
                 // Subject of the credential
@@ -81,7 +91,7 @@ public class CredentialExamples {
         var client = new CredentialApi();
         var issuedVC = client.issueVC(new IssueVCRequest()
                 // General VC properties
-                .type("NutsEmployeeCredential")
+                .type(new IssueVCRequestType("NutsAuthenticationCredential"))
                 .issuer("did:nuts:some-did") // the DID of the issuer of the credential
                 // Subject of the credential
                 .credentialSubject(
