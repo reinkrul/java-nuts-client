@@ -23,7 +23,7 @@ Find all versions on [Maven central](https://search.maven.org/artifact/nl.reinkr
 # Usage
 The example below instantiates the API client for VDR and calls `getDID` for `subjectDID`:
 ```java
-var apiClient = new nl.reinkrul.nuts.ApiClient();
+var apiClient = new nl.reinkrul.nuts.Configuration.getDefaultApiClient();
 
 var didApi = new nl.reinkrul.nuts.vdr.DidApi(apiClient);
 var didDocument = didApi.getDID(subjectDID, null, null);
