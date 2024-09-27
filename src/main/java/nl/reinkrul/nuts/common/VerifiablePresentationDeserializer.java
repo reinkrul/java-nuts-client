@@ -1,35 +1,30 @@
 package nl.reinkrul.nuts.common;
 
-import com.danubetech.verifiablecredentials.VerifiableCredential;
-import com.danubetech.verifiablecredentials.VerifiablePresentation;
-import com.danubetech.verifiablecredentials.jwt.JwtVerifiableCredential;
 import com.danubetech.verifiablecredentials.jwt.JwtVerifiablePresentation;
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.ParseException;
 
 public class VerifiablePresentationDeserializer extends StdDeserializer<VerifiablePresentation> {
 
-    public VerifiablePresentationDeserializer(Class<?> vc) {
-        super(vc);
+    public VerifiablePresentationDeserializer() {
+        super(VerifiablePresentation.class);
     }
 
     @Override
     public VerifiablePresentation deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         var token = jsonParser.nextValue();
+        String valueAsString = jsonParser.getValueAsString();
         if (token == JsonToken.START_OBJECT) {
             // Parse as JSON-LD
-            return com.danubetech.verifiablecredentials.VerifiablePresentation.fromJson(new InputStreamReader(new ByteArrayInputStream(token.asByteArray())));
+            return new VerifiablePresentation(com.danubetech.verifiablecredentials.VerifiablePresentation.fromJson(valueAsString).getJsonObject(), valueAsString);
         } else if (token == JsonToken.VALUE_STRING) {
             try {
-                return JwtVerifiablePresentation.fromCompactSerialization(token.asString()).getPayloadObject();
+                return new VerifiablePresentation(JwtVerifiablePresentation.fromCompactSerialization(token.asString()).getPayloadObject().getJsonObject(), valueAsString);
             } catch (ParseException e) {
                 throw new IOException(e);
             }

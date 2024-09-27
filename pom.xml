@@ -36,7 +36,7 @@
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
-        <nuts.version>master</nuts.version>
+        <nuts.version>v6.0.0-rc.4</nuts.version>
         <openapi.spec.baseurl>
             https://raw.githubusercontent.com/nuts-foundation/nuts-node/${nuts.version}/docs/_static
         </openapi.spec.baseurl>
@@ -203,8 +203,8 @@
                                 </concat>
                                 <!-- VDR -->
                                 <mkdir dir="${openapi.spec.dir}/vdr/"/>
-                                <get src="${openapi.spec.baseurl}/vdr/v1.yaml"
-                                     dest="${openapi.spec.dir}/vdr/v1.yaml"/>
+                                <get src="${openapi.spec.baseurl}/vdr/v2.yaml"
+                                     dest="${openapi.spec.dir}/vdr/v2.yaml"/>
                                 <mkdir dir="${openapi.spec.dir}/vdr/"/>
                                 <get src="${openapi.spec.baseurl}/vdr/v2.yaml"
                                      dest="${openapi.spec.dir}/vdr/v2.yaml"/>
@@ -290,8 +290,8 @@
                     <!-- Mappings to support single common model, so they don't duplicate for each module -->
                     <schemaMappings>
                         DIDDocument=nl.reinkrul.nuts.common.DIDDocument,
-                        VerifiableCredential=com.danubetech.verifiablecredentials.VerifiableCredential,
-                        VerifiablePresentation=com.danubetech.verifiablecredentials.VerifiablePresentation,
+                        VerifiableCredential=nl.reinkrul.nuts.common.VerifiableCredential,
+                        VerifiablePresentation=nl.reinkrul.nuts.common.VerifiablePresentation,
 
                         DIDDocumentMetadata=nl.reinkrul.nuts.common.DIDDocumentMetadata,
                         EmbeddedProof=nl.reinkrul.nuts.common.EmbeddedProof,
@@ -327,8 +327,8 @@
                             <!-- Reset schema mappings, which are there for commons -->
                             <schemaMappings>
                                 DIDDocument=nl.reinkrul.nuts.common.DIDDocument,
-                                VerifiableCredential=com.danubetech.verifiablecredentials.VerifiableCredential,
-                                VerifiablePresentation=com.danubetech.verifiablecredentials.VerifiablePresentation
+                                VerifiableCredential=nl.reinkrul.nuts.common.VerifiableCredential,
+                                VerifiablePresentation=nl.reinkrul.nuts.common.VerifiablePresentation
                             </schemaMappings>
                             <configOptions>
                                 <apiPackage>nl.reinkrul.nuts.common</apiPackage>
@@ -339,20 +339,6 @@
                     </execution>
                     <!-- VDR -->
                     <execution>
-                        <id>generate-vdr-v1-client</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${openapi.spec.dir}/vdr/v1.yaml</inputSpec>
-                            <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.vdr.v1</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.vdr.v1</modelPackage>
-                                <invokerPackage>nl.reinkrul.nuts</invokerPackage>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>generate-vdr-v2-client</id>
                         <goals>
                             <goal>generate</goal>
@@ -360,8 +346,8 @@
                         <configuration>
                             <inputSpec>${openapi.spec.dir}/vdr/v2.yaml</inputSpec>
                             <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.vdr.v2</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.vdr.v2</modelPackage>
+                                <apiPackage>nl.reinkrul.nuts.vdr</apiPackage>
+                                <modelPackage>nl.reinkrul.nuts.vdr</modelPackage>
                                 <invokerPackage>nl.reinkrul.nuts</invokerPackage>
                             </configOptions>
                         </configuration>

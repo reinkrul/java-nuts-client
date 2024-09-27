@@ -1,7 +1,7 @@
 .PHONY: generate
 
 generate:
-	mvn clean generate-sources
+	mvn clean process-sources
 
 install:
 	mvn clean install

@@ -1,10 +1,7 @@
 package nl.reinkrul.nuts;
 
-import com.danubetech.verifiablecredentials.VerifiableCredential;
-import com.danubetech.verifiablecredentials.VerifiablePresentation;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import nl.reinkrul.nuts.common.VerifiableCredentialDeserializer;
-import nl.reinkrul.nuts.common.VerifiablePresentationDeserializer;
+import nl.reinkrul.nuts.common.*;
 
 public class Configuration {
 
@@ -34,8 +31,10 @@ public class Configuration {
         var result = new ApiClient();
         result.setUserAgent("nuts-java-client");
         var module = new SimpleModule();
-        module.addDeserializer(VerifiableCredential.class, new VerifiableCredentialDeserializer(VerifiableCredential.class));
-        module.addDeserializer(VerifiablePresentation.class, new VerifiablePresentationDeserializer(VerifiablePresentation.class));
+        module.addDeserializer(VerifiableCredential.class, new VerifiableCredentialDeserializer());
+        module.addSerializer(VerifiableCredential.class, new VerifiableCredentialSerializer());
+        module.addDeserializer(VerifiablePresentation.class, new VerifiablePresentationDeserializer());
+        module.addSerializer(VerifiablePresentation.class, new VerifiablePresentationSerializer());
         result.getJSON().getMapper().registerModule(module);
         return result;
     }
