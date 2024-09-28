@@ -218,7 +218,7 @@
                                      dest="${openapi.spec.dir}/didman/v1.yaml"/>
                                 <!-- Discovery -->
                                 <mkdir dir="${openapi.spec.dir}/discovery/"/>
-                                <get src="${openapi.spec.baseurl}/discovery/v1.yaml"
+                                <get src="https://raw.githubusercontent.com/nuts-foundation/nuts-node/attempt-openapi-vcr2-fix/docs/_static/discovery/v1.yaml"
                                      dest="${openapi.spec.dir}/discovery/v1.yaml"/>
                                 <!-- Network -->
                                 <mkdir dir="${openapi.spec.dir}/network/"/>

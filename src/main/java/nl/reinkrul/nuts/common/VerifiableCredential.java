@@ -11,8 +11,10 @@ public class VerifiableCredential extends com.danubetech.verifiablecredentials.V
         this.source = source;
     }
 
-    public final String source;
-
+    /**
+     * Constructor for VerifiableCredential for an unsigned credential; it will marshal to JSON-LD.
+     * @param employeeCredential
+     */
     public VerifiableCredential(com.danubetech.verifiablecredentials.VerifiableCredential employeeCredential) {
         super(employeeCredential.getJsonObject());
         try {
@@ -21,4 +23,9 @@ public class VerifiableCredential extends com.danubetech.verifiablecredentials.V
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * The raw source of the credential, as it was deserialized.
+     */
+    public final String source;
 }

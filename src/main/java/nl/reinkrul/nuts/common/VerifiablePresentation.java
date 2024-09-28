@@ -8,5 +8,8 @@ public class VerifiablePresentation extends com.danubetech.verifiablecredentials
         this.source = source;
     }
 
+    /**
+     * The raw source of the presentation, as it was deserialized.
+     */
     public final String source;
 }

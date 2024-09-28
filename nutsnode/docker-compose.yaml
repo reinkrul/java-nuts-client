@@ -1,0 +1,18 @@
+services:
+  nuts-node:
+    image: nutsfoundation/nuts-node:master
+    ports:
+      - "8081:8081"
+      - "8080:8080"
+    volumes:
+      - ./discovery:/opt/nuts/discovery:ro
+      - ./policy:/opt/nuts/policy:ro
+    environment:
+      NUTS_CRYPTO_STORAGE: fs
+      NUTS_HTTP_INTERNAL_ADDRESS: :8081
+      NUTS_URL: http://localhost:8080
+      NUTS_STRICTMODE: false
+      NUTS_DISCOVERY_DEFINITIONS_DIRECTORY: /opt/nuts/discovery
+      NUTS_DISCOVERY_SERVER_IDS: test
+      NUTS_POLICY_DIRECTORY: /opt/nuts/policy
+      NUTS_AUTH_CONTRACTVALIDATORS: dummy
