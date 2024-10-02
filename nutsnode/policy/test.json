@@ -45,7 +45,8 @@
               {
                 "id": "organization_name",
                 "path": [
-                  "$.credentialSubject.organization.name"
+                  "$.credentialSubject.organization.name",
+                  "$.credentialSubject[0].organization.name"
                 ],
                 "filter": {
                   "type": "string"
@@ -54,7 +55,8 @@
               {
                 "id": "organization_ura",
                 "path": [
-                  "$.credentialSubject.organization.ura"
+                  "$.credentialSubject.organization.ura",
+                  "$.credentialSubject[0].organization.ura"
                 ],
                 "filter": {
                   "type": "string"
@@ -63,7 +65,64 @@
               {
                 "id": "organization_city",
                 "path": [
-                  "$.credentialSubject.organization.city"
+                  "$.credentialSubject.organization.city",
+                  "$.credentialSubject[0].organization.city"
+                ],
+                "filter": {
+                  "type": "string"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "id_employee_credential_cred",
+          "constraints": {
+            "fields": [
+              {
+                "path": [
+                  "$.type"
+                ],
+                "filter": {
+                  "type": "string",
+                  "const": "NutsEmployeeCredential"
+                }
+              },
+              {
+                "id": "employee_identifier",
+                "path": [
+                  "$.credentialSubject.member.identifier",
+                  "$.credentialSubject[0].member.identifier"
+                ],
+                "filter": {
+                  "type": "string"
+                }
+              },
+              {
+                "id": "employee_name",
+                "path": [
+                  "$.credentialSubject.member.member.familyName",
+                  "$.credentialSubject[0].member.member.familyName"
+                ],
+                "filter": {
+                  "type": "string"
+                }
+              },
+              {
+                "id": "employee_initials",
+                "path": [
+                  "$.credentialSubject.member.member.initials",
+                  "$.credentialSubject[0].member.member.initials"
+                ],
+                "filter": {
+                  "type": "string"
+                }
+              },
+              {
+                "id": "employee_role",
+                "path": [
+                  "$.credentialSubject.member.roleName",
+                  "$.credentialSubject[0].member.roleName"
                 ],
                 "filter": {
                   "type": "string"

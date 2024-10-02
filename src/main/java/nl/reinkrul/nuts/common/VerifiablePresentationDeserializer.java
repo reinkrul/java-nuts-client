@@ -17,18 +17,20 @@ public class VerifiablePresentationDeserializer extends StdDeserializer<Verifiab
 
     @Override
     public VerifiablePresentation deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        var token = jsonParser.nextValue();
-        String valueAsString = jsonParser.getValueAsString();
-        if (token == JsonToken.START_OBJECT) {
-            // Parse as JSON-LD
-            return new VerifiablePresentation(com.danubetech.verifiablecredentials.VerifiablePresentation.fromJson(valueAsString).getJsonObject(), valueAsString);
-        } else if (token == JsonToken.VALUE_STRING) {
+        if (jsonParser.getCurrentToken().isScalarValue()) {
+            var valueAsString = jsonParser.getValueAsString();
             try {
-                return new VerifiablePresentation(JwtVerifiablePresentation.fromCompactSerialization(token.asString()).getPayloadObject().getJsonObject(), valueAsString);
+                return new VerifiablePresentation(JwtVerifiablePresentation.fromCompactSerialization(valueAsString).getPayloadObject().getJsonObject(), valueAsString);
             } catch (ParseException e) {
                 throw new IOException(e);
             }
         }
-        throw new IOException("Unexpected token: " + token);
+        if (jsonParser.getCurrentToken().isStructStart()) {
+            // Parse as JSON-LD
+            var valueAsString = jsonParser.readValueAsTree().toString();
+            return new VerifiablePresentation(com.danubetech.verifiablecredentials.VerifiablePresentation.fromJson(valueAsString).getJsonObject(), valueAsString);
+
+        }
+        throw new IOException("Unexpected token: " + jsonParser.getCurrentToken().id());
     }
 }

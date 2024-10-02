@@ -16,3 +16,4 @@ services:
       NUTS_DISCOVERY_SERVER_IDS: test
       NUTS_POLICY_DIRECTORY: /opt/nuts/policy
       NUTS_AUTH_CONTRACTVALIDATORS: dummy
+      NUTS_VDR_DIDMETHODS: web

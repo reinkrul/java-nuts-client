@@ -218,7 +218,7 @@
                                      dest="${openapi.spec.dir}/didman/v1.yaml"/>
                                 <!-- Discovery -->
                                 <mkdir dir="${openapi.spec.dir}/discovery/"/>
-                                <get src="https://raw.githubusercontent.com/nuts-foundation/nuts-node/attempt-openapi-vcr2-fix/docs/_static/discovery/v1.yaml"
+                                <get src="${openapi.spec.baseurl}/discovery/v1.yaml"
                                      dest="${openapi.spec.dir}/discovery/v1.yaml"/>
                                 <!-- Network -->
                                 <mkdir dir="${openapi.spec.dir}/network/"/>
@@ -235,6 +235,24 @@
                                 <mkdir dir="${openapi.spec.dir}/auth/"/>
                                 <get src="${openapi.spec.baseurl}/auth/v2.yaml"
                                      dest="${openapi.spec.dir}/auth/v2.yaml"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!--
+                          We have our own DiscoveryApi class, so change the tag of discovery services to cause the
+                          original generated class to have a base class name, so we can extend it as DiscoveryApi.
+                        -->
+                        <id>replace-discovery-tag</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <replace file="${openapi.spec.dir}/discovery/v1.yaml">
+                                    <replacefilter token="- discovery" value="- baseDiscovery" />
+                                </replace>
                             </target>
                         </configuration>
                     </execution>
@@ -302,20 +320,6 @@
                 </configuration>
                 <executions>
                     <!-- Model-only OpenAPI specs need to be generated first, otherwise the ApiClient will be missing authentication schemes -->
-                    <execution>
-                        <id>generate-additions</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>specs/credentials.yaml</inputSpec>
-                            <generateApis>false</generateApis>
-                            <configOptions>
-                                <apiPackage>nl.reinkrul.nuts.extra</apiPackage>
-                                <modelPackage>nl.reinkrul.nuts.extra</modelPackage>
-                            </configOptions>
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>generate-common-ssi-types</id>
                         <goals>
