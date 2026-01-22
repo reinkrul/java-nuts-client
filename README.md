@@ -14,7 +14,7 @@ It is generated from the latest version of the OpenAPI specifications of the Nut
 <dependency>
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
-    <version>6.0.1</version>
+    <version>6.1.0</version>
 </dependency>
 ```
 
@@ -47,5 +47,5 @@ Run `make`:
    make release
    ```
 
-5. Log in to [Sonatype](https://s01.oss.sonatype.org/) and close & release staging repository (see https://central.sonatype.org/publish/publish-maven/).
+5. Log in to [Maven central](https://central.sonatype.com/publishing) and publish the version.
 6. Update dependency version in `pom.xml` to the new version, update examples if required, commit and push.

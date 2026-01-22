@@ -9,4 +9,4 @@ install:
 release:
 	mvn clean
 	mvn versions:set
-	mvn deploy -Psign-artifacts -DaltDeploymentRepository=ossrh::default::https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+	mvn deploy -Psign-artifacts

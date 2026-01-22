@@ -78,7 +78,7 @@ public class IntegrationTest {
                 .tokenType(ServiceAccessTokenRequest.TokenTypeEnum.DPOP)
                 .addCredentialsItem(employeeCredential.getCredential())
                 .scope("test")
-                .authorizationServer("http://localhost:8080/oauth2/" + subjectID)
+                .authorizationServer("http://localhost:8080/oauth2/" + subjectID), ""
         );
 
         // PEP: Check access token

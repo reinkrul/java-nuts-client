@@ -7,7 +7,7 @@
     <groupId>nl.reinkrul.nuts</groupId>
     <artifactId>java-client</artifactId>
     <packaging>jar</packaging>
-    <version>6.0.1</version>
+    <version>6.1.0</version>
     <name>Java Nuts Client Library</name>
 
     <url>https://github.com/reinkrul/java-nuts-client</url>
@@ -36,7 +36,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <nuts.version>v6.0.0-rc.8</nuts.version>
+        <nuts.version>v6.1.7</nuts.version>
         <openapi.spec.baseurl>
             https://raw.githubusercontent.com/nuts-foundation/nuts-node/${nuts.version}/docs/_static
         </openapi.spec.baseurl>
@@ -513,6 +513,15 @@
                             <head>Http Response Details:</head>
                         </tag>
                     </tags>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.9.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
                 </configuration>
             </plugin>
         </plugins>
